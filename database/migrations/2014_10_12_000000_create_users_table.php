@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->tinyInteger('status')->default(0);
             $table->string('password');
+            $table->string('address');
+            $table->string('phone');
+            $table->string('city');
+            $table->string('birthday');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->softDeletes();
