@@ -27,14 +27,20 @@ class CreateUser extends FormRequest
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
+            'status' => 'required',
         ];
     }
     public function messages()
     {
         return [
+            'name.required' => 'Name is required',
+            'name.min' => 'Name character minimum 3  is required',
             'email.required' => 'Email is required',
             'email.unique' => 'Email is exist',
-            'email.email' => 'Email is not correct'
+            'email.email' => 'Email is not correct',
+            'password.min' => 'Password Minimum character 6 is required',
+            'password.required' => 'Password is required',
+            'status.required' => 'Status is required'
         ];
     }
 }

@@ -23,12 +23,16 @@ class UserRepository implements UserInterface
 
     public function create($data): array
     {
-        $inputs = $data->only(['name', 'email', 'password','status']);
+        $inputs = $data->only(['name', 'email', 'password','status','address','city','birthday','phone']);
 
         $rules=array(
             'name'  =>"required|min:3|max:30",
             'email' =>"required|unique:users|min:5|max:30",
             'password' =>"required|min:6",
+            'phone' =>"required",
+            'city' =>"required",
+            'birthday' =>"required",
+            'address' =>"required",
             'status' =>"required",
         );
         $validator=Validator::make($data->all(),$rules);
@@ -37,7 +41,7 @@ class UserRepository implements UserInterface
             $responce = [
                 'user' => $data,
                 'message' => 'error created user',
-                'code' => 404,
+                'status' => 422,
             ];
             return  $responce;
         }
@@ -46,12 +50,16 @@ class UserRepository implements UserInterface
             $user->name = $inputs['name'];
             $user->email = $inputs['email'];
             $user->status = $inputs['status'];
+            $user->phone = $inputs['phone'];
+            $user->address = $inputs['address'];
+            $user->phone = $inputs['phone'];
+            $user->birthday = $inputs['birthday'];
             $user->password =Hash::make($inputs['password']) ;
             $user->save();
             $responce = [
                 'user' => $user,
                 'message' => 'user successfully created',
-                'code' => 200,
+                'status' => 200,
 
             ];
             return  $responce;
@@ -64,11 +72,16 @@ class UserRepository implements UserInterface
     {
        // $inputs = $data->only(['name','email' ,'status','id']);
         $user = $this->find($id);
+        if (!$user['user'])
+            return$user;
         $rules=array(
-            'id'  =>"required",
             'name'  =>"required|min:3|max:30",
-            'email' => 'unique:users,email,'.$user->id,
+            'phone' =>"required",
+            'city' =>"required",
+            'birthday' =>"required",
+            'address' =>"required",
             'status' =>"required",
+            'email' => 'unique:users,email,'.$user->id,
         );
 
         $validator=Validator::make($data->all(),$rules);
@@ -84,9 +97,13 @@ class UserRepository implements UserInterface
         else {
             $user = $this->find($id);
             $user->name = $data['name'];
-            $user->status = $data['status'];
             $user->email = $data['email'];
-
+            $user->status = $data['status'];
+            $user->phone = $data['phone'];
+            $user->address = $data['address'];
+            $user->phone = $data['phone'];
+            $user->birthday = $data['birthday'];
+            $user->save();
             if ($data['password'])
                 $user->password = Hash::make($data['password']);
 
