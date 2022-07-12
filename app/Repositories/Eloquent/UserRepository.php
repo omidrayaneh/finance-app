@@ -27,7 +27,7 @@ class UserRepository implements UserInterface
 
         $rules=array(
             'name'  =>"required|min:3|max:30",
-            'email' =>"required|unique:users|min:5|max:30",
+            'email' =>"required|email|unique:users|min:5|max:30",
             'password' =>"required|min:6",
             'phone' =>"required",
             'city' =>"required",
@@ -52,7 +52,7 @@ class UserRepository implements UserInterface
             $user->status = $inputs['status'];
             $user->phone = $inputs['phone'];
             $user->address = $inputs['address'];
-            $user->phone = $inputs['phone'];
+            $user->city = $inputs['city'];
             $user->birthday = $inputs['birthday'];
             $user->password =Hash::make($inputs['password']) ;
             $user->save();
@@ -75,13 +75,14 @@ class UserRepository implements UserInterface
         if (!$user['user'])
             return$user;
         $rules=array(
+          //  'id'  =>"required",
             'name'  =>"required|min:3|max:30",
+            'email' => 'unique:users,email,'.$id,
             'phone' =>"required",
             'city' =>"required",
             'birthday' =>"required",
             'address' =>"required",
             'status' =>"required",
-            'email' => 'unique:users,email,'.$user->id,
         );
 
         $validator=Validator::make($data->all(),$rules);
@@ -96,21 +97,22 @@ class UserRepository implements UserInterface
         }
         else {
             $user = $this->find($id);
-            $user->name = $data['name'];
-            $user->email = $data['email'];
-            $user->status = $data['status'];
-            $user->phone = $data['phone'];
-            $user->address = $data['address'];
-            $user->phone = $data['phone'];
-            $user->birthday = $data['birthday'];
-            $user->save();
+            $userData = $user['user'];
+            $userData->name = $data['name'];
+            $userData->email = $data['email'];
+            $userData->status = $data['status'];
+            $userData->phone = $data['phone'];
+            $userData->address = $data['address'];
+            $userData->city = $data['city'];
+            $userData->birthday = $data['birthday'];
+            $userData->save();
             if ($data['password'])
-                $user->password = Hash::make($data['password']);
+                $userData->password = Hash::make($data['password']);
 
-            $user->save();
+            $userData->save();
 
             $responce = [
-                'user' => $user,
+                'user' => $userData,
                 'message' => 'user successfully created',
                 'status' => 200,
 
