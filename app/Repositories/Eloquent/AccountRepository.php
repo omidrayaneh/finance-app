@@ -25,10 +25,11 @@ class AccountRepository implements AccountInterface
 
     public function create($data)
     {
-        $inputs = $data->only([ 'account_type', 'bank_id','total_balance','status' ,'total_limited']);
+        $inputs = $data->only([ 'account_type', 'bank_id','user_id','total_balance','status' ,'total_limited']);
 
         $rules=array(
             'bank_id' =>"required",
+            'user_id' =>"required",
             'account_type' =>"required",
             'total_balance' =>"required",
             'total_limited' =>"required",
@@ -45,6 +46,7 @@ class AccountRepository implements AccountInterface
             return  $responce;
         }
         else {
+
             $account = new Account();
             $account->account_no = Account::generateAccountNo();
             $account->account_type = $inputs['account_type'];
@@ -52,6 +54,7 @@ class AccountRepository implements AccountInterface
             $account->total_balance = $inputs['total_balance'];
             $account->total_limited = $inputs['total_limited'];
             $account->bank_id = $inputs['bank_id'];
+            $account->user_id = $inputs['user_id'];
             $account->save();
             $responce = [
                 'data' => $account,
