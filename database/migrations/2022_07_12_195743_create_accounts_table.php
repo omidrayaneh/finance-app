@@ -20,6 +20,10 @@ return new class extends Migration
             $table->tinyInteger('status');
             $table->double('total_balance');
             $table->double('total_limited');
+
+            $table->unsignedBigInteger('bank_id');
+            $table->foreign('bank_id')->references('id')->on('banks');
+
             $table->timestamps();
         });
     }

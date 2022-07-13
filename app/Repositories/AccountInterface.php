@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 interface AccountInterface
 {
-    public function index();
+    public function all();
 
     public function create($data);
 
@@ -13,4 +13,6 @@ interface AccountInterface
     public function find($id);
 
     public function disabled($id);
+
+    public function enabled($id);
 }

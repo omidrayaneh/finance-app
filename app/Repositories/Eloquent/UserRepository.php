@@ -12,13 +12,12 @@ class UserRepository implements UserInterface
     public function all(): array
     {
         $users = User::all();
-        $responce = [
+        return [
             'users' => $users,
             'message' => 'users successfully found',
             'statusCode' => 200,
 
         ];
-        return  $responce;
     }
 
     public function create($data): array
@@ -70,7 +69,6 @@ class UserRepository implements UserInterface
 
     public function update($data, $id): array
     {
-        // $inputs = $data->only(['name','email' ,'status','id']);
         $user = $this->find($id);
         if($user['data'] == null)
          return $user;
@@ -114,7 +112,7 @@ class UserRepository implements UserInterface
 
             $responce = [
                 'data' => $user,
-                'message' => 'user successfully created',
+                'message' => 'user successfully updated',
                 'statusCode' => 200,
 
             ];
@@ -126,10 +124,8 @@ class UserRepository implements UserInterface
     public function delete($id): array
     {
         $user = $this->find($id);
-        if (!$user['data'] ){
-            $responce = $user;
-            return $responce;
-        }
+        if (!$user['data'] )
+            return $user;
 
         $user['data']->delete();
 

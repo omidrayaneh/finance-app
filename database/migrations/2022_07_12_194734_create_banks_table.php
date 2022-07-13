@@ -19,10 +19,6 @@ return new class extends Migration
             $table->string('branch');
             $table->string('pin_code');
             $table->string('phone_no');
-
-            $table->unsignedBigInteger('account_id');
-            $table->foreign('account_id')->references('id')->on('accounts');
-
             $table->timestamps();
         });
     }
