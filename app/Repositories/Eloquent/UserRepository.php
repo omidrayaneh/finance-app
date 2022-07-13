@@ -11,6 +11,7 @@ class UserRepository implements UserInterface
 
     public function all(): array
     {
+        //get all user
         $users = User::all();
         return [
             'users' => $users,
@@ -22,6 +23,7 @@ class UserRepository implements UserInterface
 
     public function create($data): array
     {
+        //validate user fields
         $inputs = $data->only(['name', 'email', 'password','status' ,'address','city','phone','birthday']);
 
         $rules=array(
@@ -36,6 +38,7 @@ class UserRepository implements UserInterface
         );
         $validator=Validator::make($data->all(),$rules);
         if($validator->fails()){
+            //response error validate
             $data = $validator->errors();
             $responce = [
                 'data' => $data,
@@ -45,6 +48,7 @@ class UserRepository implements UserInterface
             return  $responce;
         }
         else {
+            //make user
             $user = new User();
             $user->name = $inputs['name'];
             $user->email = $inputs['email'];
@@ -69,10 +73,13 @@ class UserRepository implements UserInterface
 
     public function update($data, $id): array
     {
+        //find user if id is true
         $user = $this->find($id);
+        //id is not true
         if($user['data'] == null)
          return $user;
 
+        //validate user update fields
         $rules=array(
             'email' => 'unique:users,email,'.$id,
             'name'  =>"required|min:3|max:30",
@@ -85,6 +92,8 @@ class UserRepository implements UserInterface
 
         $validator=Validator::make($data->all(),$rules);
         if($validator->fails()){
+
+            //response validation error message
             $data = $validator->errors();
 
             $responce = [
@@ -95,6 +104,7 @@ class UserRepository implements UserInterface
         }
         else {
 
+            //update user
             $user = $this->find($id);
             $user = $user['data'];
             $user->name = $data['name'];
@@ -123,10 +133,13 @@ class UserRepository implements UserInterface
 
     public function delete($id): array
     {
+
+        // find user by id if id exist
         $user = $this->find($id);
         if (!$user['data'] )
             return $user;
 
+        //soft delete user
         $user['data']->delete();
 
           return  [
@@ -138,6 +151,7 @@ class UserRepository implements UserInterface
 
     public function find($id)
     {
+        // find user by id if id exist
         $user = User::where('id',$id)->first();
         if (empty($user)){
             return  [
@@ -147,7 +161,7 @@ class UserRepository implements UserInterface
 
             ];
         }
-
+        //id is true and response user
       return   [
             'data' => $user,
             'message' => 'user  founded!',

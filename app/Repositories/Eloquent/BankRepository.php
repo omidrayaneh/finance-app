@@ -16,6 +16,7 @@ class BankRepository implements BankInterface
      */
     public function all()
     {
+        //get all bank
         $banks = Bank::all();
         return [
             'accounts' => $banks,
@@ -27,6 +28,7 @@ class BankRepository implements BankInterface
 
     public function create($data)
     {
+        //validation bank fields
         $inputs = $data->only([ 'name', 'branch','pin_code','phone_no']);
 
         $rules=array(
@@ -35,8 +37,11 @@ class BankRepository implements BankInterface
             'pin_code' =>"required",
             'phone_no' =>"required",
         );
+
         $validator=Validator::make($data->all(),$rules);
         if($validator->fails()){
+
+            //error message validation bank
             $data = $validator->errors();
             $responce = [
                 'data' => $data,
@@ -47,6 +52,7 @@ class BankRepository implements BankInterface
         }
         else {
 
+            //make bank
             $bank = new Bank();
             $bank->name =$inputs['name'] ;
             $bank->branch = $inputs['branch'];
@@ -67,10 +73,14 @@ class BankRepository implements BankInterface
 
     public function update($data, $id)
     {
+        //find bank
         $bank = $this->find($id);
+
+        //if not found bank return response
         if($bank['data'] == null)
             return $bank;
 
+        //validate bank fields
         $rules=array(
             'name' => 'required|unique:users,name,'.$id,
             'branch' =>"required",
@@ -80,8 +90,9 @@ class BankRepository implements BankInterface
 
         $validator=Validator::make($data->all(),$rules);
         if($validator->fails()){
-            $data = $validator->errors();
 
+            //return error validation
+            $data = $validator->errors();
             $responce = [
                 'data' => $data,
                 'message' => 'error update bank',
@@ -89,7 +100,7 @@ class BankRepository implements BankInterface
             ];
         }
         else {
-
+            //uodate bank
             $bank = $this->find($id);
             $bank = $bank['data'];
             $bank->name = $data['name'];
@@ -111,7 +122,10 @@ class BankRepository implements BankInterface
 
     public function find($id)
     {
+        //find bank by id
         $bank = Bank::where('id',$id)->first();
+
+        // if id is not true
         if (empty($bank)){
             return  [
                 'data' => null,
@@ -120,7 +134,7 @@ class BankRepository implements BankInterface
 
             ];
         }
-
+        // id is true
         return   [
             'data' => $bank,
             'message' => 'bank  founded!',

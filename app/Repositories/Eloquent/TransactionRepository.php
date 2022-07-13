@@ -25,6 +25,7 @@ class TransactionRepository implements TransactionInterface
      */
     public function create($data): array
     {
+        // request only should be accessible
         $inputs = $data->only(['amount', 'status','account_id1','account_id2']);
 
         $rules = array(
@@ -127,7 +128,10 @@ class TransactionRepository implements TransactionInterface
      */
     function find($id): array
     {
+        //find transaction with relation (accounts)
         $account = Transaction::with('accounts')->where('cust_id', $id)->first();
+
+        // if transaction not fount return 422 status code
         if (empty($account)) {
             return [
                 'data' => null,
@@ -137,6 +141,7 @@ class TransactionRepository implements TransactionInterface
             ];
         }
 
+        // if transaction is existed return it
         return [
             'data' => $account,
             'message' => 'transaction  founded!',
