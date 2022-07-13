@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\AccountController;
+use App\Http\Controllers\Api\Admin\BankController;
 use App\Http\Controllers\Api\Admin\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,8 @@ Route::post('/account/create',[AccountController::class,'store']);
 Route::patch('/account/update/{account_no}',[AccountController::class,'update']);
 Route::patch('/account/disabled/{account_no}',[AccountController::class,'disabled']);
 Route::patch('/account/enabled/{account_no}',[AccountController::class,'enabled']);
+
+Route::get('/banks',[BankController::class,'index']);
+Route::get('/bank/{id}',[BankController::class,'show']);
+Route::post('/bank/create',[BankController::class,'store']);
+Route::patch('/bank/update/{id}',[BankController::class,'update']);
