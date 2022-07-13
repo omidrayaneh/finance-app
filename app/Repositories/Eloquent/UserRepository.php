@@ -15,7 +15,7 @@ class UserRepository implements UserInterface
         $responce = [
             'users' => $users,
             'message' => 'users successfully found',
-            'status' => 200,
+            'statusCode' => 200,
 
         ];
         return  $responce;
@@ -23,25 +23,25 @@ class UserRepository implements UserInterface
 
     public function create($data): array
     {
-        $inputs = $data->only(['name', 'email', 'password','status','address','city','birthday','phone']);
+        $inputs = $data->only(['name', 'email', 'password','status' ,'address','city','phone','birthday']);
 
         $rules=array(
             'name'  =>"required|min:3|max:30",
-            'email' =>"required|email|unique:users|min:5|max:30",
-            'password' =>"required|min:6",
-            'phone' =>"required",
-            'city' =>"required",
-            'birthday' =>"required",
+            'email' =>"required|unique:users|min:5|max:30",
             'address' =>"required",
+            'city' =>"required",
+            'phone' =>"required",
+            'birthday' =>"required",
+            'password' =>"required|min:6",
             'status' =>"required",
         );
         $validator=Validator::make($data->all(),$rules);
         if($validator->fails()){
             $data = $validator->errors();
             $responce = [
-                'user' => $data,
+                'data' => $data,
                 'message' => 'error created user',
-                'status' => 422,
+                'statusCode' => 422,
             ];
             return  $responce;
         }
@@ -50,16 +50,16 @@ class UserRepository implements UserInterface
             $user->name = $inputs['name'];
             $user->email = $inputs['email'];
             $user->status = $inputs['status'];
-            $user->phone = $inputs['phone'];
             $user->address = $inputs['address'];
             $user->city = $inputs['city'];
+            $user->phone = $inputs['phone'];
             $user->birthday = $inputs['birthday'];
             $user->password =Hash::make($inputs['password']) ;
             $user->save();
             $responce = [
-                'user' => $user,
+                'data' => $user,
                 'message' => 'user successfully created',
-                'status' => 200,
+                'statusCode' => 200,
 
             ];
             return  $responce;
@@ -70,18 +70,18 @@ class UserRepository implements UserInterface
 
     public function update($data, $id): array
     {
-       // $inputs = $data->only(['name','email' ,'status','id']);
+        // $inputs = $data->only(['name','email' ,'status','id']);
         $user = $this->find($id);
-        if (!$user['user'])
-            return$user;
+        if($user['data'] == null)
+         return $user;
+
         $rules=array(
-          //  'id'  =>"required",
-            'name'  =>"required|min:3|max:30",
             'email' => 'unique:users,email,'.$id,
-            'phone' =>"required",
-            'city' =>"required",
-            'birthday' =>"required",
+            'name'  =>"required|min:3|max:30",
             'address' =>"required",
+            'city' =>"required",
+            'phone' =>"required",
+            'birthday' =>"required",
             'status' =>"required",
         );
 
@@ -90,31 +90,32 @@ class UserRepository implements UserInterface
             $data = $validator->errors();
 
             $responce = [
-                'user' => $data,
+                'data' => $data,
                 'message' => 'error update user',
-                'status' => 400,
+                'statusCode' => 400,
             ];
         }
         else {
-            $user = $this->find($id);
-            $userData = $user['user'];
-            $userData->name = $data['name'];
-            $userData->email = $data['email'];
-            $userData->status = $data['status'];
-            $userData->phone = $data['phone'];
-            $userData->address = $data['address'];
-            $userData->city = $data['city'];
-            $userData->birthday = $data['birthday'];
-            $userData->save();
-            if ($data['password'])
-                $userData->password = Hash::make($data['password']);
 
-            $userData->save();
+            $user = $this->find($id);
+            $user = $user['data'];
+            $user->name = $data['name'];
+            $user->status = $data['status'];
+            $user->email = $data['email'];
+            $user->city = $data['city'];
+            $user->phone = $data['phone'];
+            $user->birthday = $data['birthday'];
+            $user->status = $data['status'];
+
+            if ($data['password'])
+                $user->password = Hash::make($data['password']);
+
+            $user->save();
 
             $responce = [
-                'user' => $userData,
+                'data' => $user,
                 'message' => 'user successfully created',
-                'status' => 200,
+                'statusCode' => 200,
 
             ];
         }
@@ -125,37 +126,37 @@ class UserRepository implements UserInterface
     public function delete($id): array
     {
         $user = $this->find($id);
-        if (!$user['user'] ){
+        if (!$user['data'] ){
             $responce = $user;
             return $responce;
         }
 
-        $user['user'] ->delete();
+        $user['data']->delete();
 
-        $responce = $user;
-        return $responce;
-
+          return  [
+              'data' =>  $user['data'],
+              'message' => 'user deleted',
+              'statusCode' => 200,
+          ];
     }
 
     public function find($id)
     {
         $user = User::where('id',$id)->first();
         if (empty($user)){
-            $responce = [
-                'user' => $user,
-                'message' => 'user not found',
-                'status' => 422,
+            return  [
+                'data' => null,
+                'message' => 'user not found!',
+                'statusCode' => 422,
 
             ];
-            return $responce;
         }
 
-        $responce = [
-            'user' => $user,
-            'message' => 'user found successfully',
-            'status' => 200,
+      return   [
+            'data' => $user,
+            'message' => 'user  founded!',
+            'statusCode' => 200,
 
         ];
-        return $responce;
     }
 }

@@ -22,13 +22,13 @@ class UserController extends Controller
     {
         $data = $this->user->all();
 
-        return  response()->json($data ,$data['status']);
+        return  response()->json($data ,$data['statusCode']);
 
     }
     public function show($id): JsonResponse
     {
         $data = $this->user->find($id);
-        return  response()->json($data ,$data['status']);
+        return  response()->json($data ,$data['statusCode']);
 
     }
 
@@ -36,20 +36,19 @@ class UserController extends Controller
     {
         $data = $this->user->create($request);
 
-        return  response()->json($data ,$data['status']);
+        return  response()->json($data ,$data['statusCode']);
 
     }
 
     public function update(Request $request,$id): JsonResponse
     {
-        $user = $this->user->update($request,$id);
-
-        return  response()->json($user ,$user['status']);
+        $data = $this->user->update($request,$id);
+        return  response()->json($data ,$data['statusCode']);
     }
 
     public function destroy($id): JsonResponse
     {
         $data = $this->user->delete($id);
-        return  response()->json($data , $data['status']);
+        return  response()->json($data , $data['statusCode']);
     }
 }
