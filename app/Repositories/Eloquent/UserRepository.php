@@ -58,7 +58,7 @@ class UserRepository implements UserInterface
             $responce = [
                 'data' => $user,
                 'message' => 'user successfully created',
-                'statusCode' => 200,
+                'statusCode' => 201,
 
             ];
             return  $responce;

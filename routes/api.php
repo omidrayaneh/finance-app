@@ -34,3 +34,11 @@ Route::patch('/bank/update/{id}',[BankController::class,'update']);
 
 Route::post('/transaction/create',[TransactionController::class,'store']);
 Route::get('/transaction/{id}',[TransactionController::class,'show']);
+
+
+Route::prefix('/auth')->group(function () {
+    Route::post('/register',[\App\Http\Controllers\UserController::class,'register'])->name('auth.register');
+    Route::post('/login',[\App\Http\Controllers\UserController::class,'login'])->name('auth.login');
+    Route::post('/logout',[\App\Http\Controllers\UserController::class,'logout'])->name('auth.logout');
+});
+
