@@ -26,28 +26,74 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             "name" =>  "Arisha  Barron",
             'email' => 'Arisha@gmail.com',
+            "address" =>  "khoye behesht",
+            "city" =>  "khoy",
+            "phone" =>  "09143612440",
+            "birthday" =>  "13526425",
             'password' => Hash::make('123456'),
         ]);
         DB::table('users')->insert([
             "name" =>  "Branden  Gibson",
             'email' => 'Branden@gmail.com',
+            "address" =>  "khoye behesht",
+            "city" =>  "khoy",
+            "phone" =>  "09143612440",
+            "birthday" =>  "13526425",
             'password' => Hash::make('123457'),
         ]);
         DB::table('users')->insert([
             "name" =>  "Rhonda  Church",
             'email' => 'Rhonda@gmail.com',
+            "address" =>  "khoye behesht",
+            "phone" =>  "09143612440",
+            "city" =>  "khoy",
+            "birthday" =>  "13526425",
             'password' => Hash::make('123458'),
         ]);
         DB::table('users')->insert([
             "name" =>  "Georgina  Hazel",
             'email' => 'Georgina@gmail.com',
+            "address" =>  "khoye behesht",
+            "phone" =>  "09143612440",
+            "city" =>  "khoy",
+            "birthday" =>  "13526425",
             'password' => Hash::make('123459'),
         ]);
         DB::table('users')->insert([
             "name" =>  "admin",
             'email' => 'admin@gmail.com',
+            "address" =>  "khoye behesht",
+            "phone" =>  "09143612440",
+            "city" =>  "khoy",
+            "birthday" =>  "13526425",
             'password' => Hash::make('123123'),
             'status' => 1,
         ]);
+
+        DB::table('banks')->insert([
+            "name" =>  "visa",
+            "branch" =>  "visa",
+            'pin_code' => 'sad56sad',
+            'phone_no' => '0321318564',
+        ]);
+        DB::table('accounts')->insert([
+            "account_no" =>  "432464263544",
+            'account_type' => 'type 1',
+            'status' => 1,
+            'total_balance' => 1,
+            'total_limited' => 1,
+            'bank_id' => 1,
+            'user_id' => 1,
+        ]);
+        DB::table('accounts')->insert([
+            "account_no" =>  "432464263546",
+            'account_type' => 'type 1',
+            'status' => 1,
+            'total_balance' => 1000000,
+            'total_limited' => 1000,
+            'bank_id' => 1,
+            'user_id' => 2,
+        ]);
+
     }
 }

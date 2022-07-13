@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Api\Admin\AccountController;
 use App\Http\Controllers\Api\Admin\BankController;
+use App\Http\Controllers\Api\Admin\TransactionController;
 use App\Http\Controllers\Api\Admin\UserController;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +31,5 @@ Route::get('/banks',[BankController::class,'index']);
 Route::get('/bank/{id}',[BankController::class,'show']);
 Route::post('/bank/create',[BankController::class,'store']);
 Route::patch('/bank/update/{id}',[BankController::class,'update']);
+
+Route::post('/transfer/create',[TransactionController::class,'store']);

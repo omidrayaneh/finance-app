@@ -21,6 +21,9 @@ class Account extends Model
     {
         return Account::where('account_no',$number)->exists();
     }
-
+    public function transfer()
+    {
+        return $this->belongsToMany(Transaction::class);
+    }
 
 }

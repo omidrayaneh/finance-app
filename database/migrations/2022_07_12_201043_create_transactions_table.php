@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('cust_id')->unique();
-            $table->double('amount_withdrawn');
-            $table->double('status');
+            $table->double('amount');
+            $table->string('status');
             $table->timestamps();
         });
     }
