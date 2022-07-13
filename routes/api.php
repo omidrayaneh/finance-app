@@ -32,4 +32,5 @@ Route::get('/bank/{id}',[BankController::class,'show']);
 Route::post('/bank/create',[BankController::class,'store']);
 Route::patch('/bank/update/{id}',[BankController::class,'update']);
 
-Route::post('/transfer/create',[TransactionController::class,'store']);
+Route::post('/transaction/create',[TransactionController::class,'store']);
+Route::get('/transaction/{id}',[TransactionController::class,'show']);

@@ -22,4 +22,11 @@ class TransactionController extends Controller
 
         return  response()->json($data ,$data['statusCode']);
     }
+
+    public function show($id)
+    {
+        $data = $this->transfer->find($id);
+        return  response()->json($data ,$data['statusCode']);
+
+    }
 }

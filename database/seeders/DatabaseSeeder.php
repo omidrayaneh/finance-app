@@ -80,17 +80,17 @@ class DatabaseSeeder extends Seeder
             "account_no" =>  "432464263544",
             'account_type' => 'type 1',
             'status' => 1,
-            'total_balance' => 1,
-            'total_limited' => 1,
+            'total_balance' => 5000,
+            'total_limited' => 10000,
             'bank_id' => 1,
             'user_id' => 1,
         ]);
         DB::table('accounts')->insert([
-            "account_no" =>  "432464263546",
+            "account_no" =>  "903240202340",
             'account_type' => 'type 1',
             'status' => 1,
             'total_balance' => 1000000,
-            'total_limited' => 1000,
+            'total_limited' => 2000,
             'bank_id' => 1,
             'user_id' => 2,
         ]);
