@@ -21,6 +21,11 @@
 - username : sail
 - password : password
 
+### phpmyadmin
+-sail down -v
+-sail build --no-cache
+-sail up -d
+
 
 
 
